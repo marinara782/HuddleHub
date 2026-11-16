@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HuddleHub — Adaptive sports, connected</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Fredoka:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fff8f0; --panel:#ffffff; --panel2:#fff1f7; --line:#f4dbe8;
+  --ink:#2a1e3f; --mute:#5f5578; --pri:#7b3ff2; --pri-ink:#fff;
+  --pink:#ff5fa2; --sun:#ffd23f; --sky:#3fc5ff; --mint:#3ee0a6; --coral:#ff7a59;
+  --sel:#ffe1ef; --selb:#ff5fa2; --ok:#0b6b48; --okbg:#d9fbee; --focus:#7b3ff2;
+  --fs:17px;
+}
+body.hc{--bg:#000;--panel:#000;--panel2:#111;--line:#fff;--ink:#fff;--mute:#fff;--pri:#ffff00;--pri-ink:#000;--pink:#ffff00;--sun:#ffff00;--sky:#ffff00;--mint:#ffff00;--coral:#ffff00;--sel:#ffff00;--selb:#ffff00;--ok:#000;--okbg:#ffff00;--focus:#ffff00}
+body.hc header{background:#000!important}
+body.hc .chip[aria-pressed="true"]{color:#000}
+body.hc h1 em{background:none!important;-webkit-text-fill-color:#ffff00!important}
+body.hc .step{background:#000!important;border:2px solid #fff}
+*{box-sizing:border-box;margin:0;padding:0}
+html{font-size:var(--fs);scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font:1rem/1.6 "Atkinson Hyperlegible",system-ui,sans-serif}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+h1,h2,h3{font-family:Fredoka,sans-serif;font-weight:700;line-height:1.08}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:10px}
+.skip{position:absolute;left:-999px;top:8px;background:var(--pri);color:var(--pri-ink);padding:10px 14px;border-radius:12px;z-index:10}
+.skip:focus{left:8px}
+.wrap{max-width:1140px;margin:0 auto;padding:0 22px}
+.a11y{background:var(--ink);color:#fff;font-size:.82rem}
+body.hc .a11y{background:#000;border-bottom:1px solid #fff}
+.a11y .wrap{display:flex;gap:10px;align-items:center;justify-content:flex-end;min-height:40px;flex-wrap:wrap}
+.a11y button{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.5);border-radius:999px;padding:3px 12px;font:inherit;cursor:pointer}
+.a11y button[aria-pressed="true"]{background:var(--sun);color:#2a1e3f;border-color:var(--sun)}
+nav{position:sticky;top:0;z-index:5;background:var(--panel);box-shadow:0 2px 0 var(--line)}
+nav .wrap{display:flex;align-items:center;gap:26px;min-height:66px}
+.logo{font:700 1.4rem Fredoka;display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo i{width:26px;height:26px;border-radius:50%;background:var(--pink);display:inline-block;box-shadow:12px 0 0 -3px var(--sun),24px 0 0 -6px var(--sky);margin-right:14px}
+nav ul{margin-left:auto;display:flex;gap:22px;list-style:none;font-size:.92rem;font-weight:700}
+nav ul a{text-decoration:none;color:var(--mute)}nav ul a:hover{color:var(--pri)}
+.btn{border:0;cursor:pointer;font:700 .95rem "Atkinson Hyperlegible";border-radius:999px;padding:12px 22px;background:var(--pri);color:var(--pri-ink);text-decoration:none;display:inline-block;box-shadow:0 4px 0 #4f22b8;transition:transform .12s}
+.btn:hover{transform:translateY(-2px)}
+.btn.ghost{background:var(--panel);color:var(--ink);box-shadow:0 4px 0 var(--line);border:2px solid var(--line)}
+body.hc .btn{box-shadow:none}
+header{padding:80px 0 64px;position:relative;overflow:hidden;
+  background:radial-gradient(circle at 88% 18%,#ffd9ec 0 150px,transparent 151px),radial-gradient(circle at 96% 78%,#d6f3ff 0 120px,transparent 121px),radial-gradient(circle at 72% 92%,#fff1b8 0 90px,transparent 91px),var(--bg)}
+.floaties{position:absolute;right:6%;top:24%;font-size:3.2rem;display:grid;grid-template-columns:repeat(2,auto);gap:18px 30px;pointer-events:none}
+.floaties span{animation:bob 3.5s ease-in-out infinite}
+.floaties span:nth-child(2){animation-delay:.6s}.floaties span:nth-child(3){animation-delay:1.2s}.floaties span:nth-child(4){animation-delay:1.8s}
+@keyframes bob{50%{transform:translateY(-12px) rotate(6deg)}}
+header h1{font-size:clamp(2.5rem,6.4vw,5rem);max-width:760px;position:relative}
+header h1 em{font-style:normal;background:linear-gradient(90deg,var(--pink),var(--pri) 55%,var(--sky));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+header p{color:var(--mute);font-size:1.15rem;max-width:600px;margin:22px 0 30px;position:relative}
+.row{display:flex;gap:14px;align-items:center;flex-wrap:wrap;position:relative}
+.stats{display:flex;gap:16px;margin-top:46px;flex-wrap:wrap;position:relative}
+.stats div{background:var(--panel);border-radius:20px;padding:14px 22px;border:2px solid var(--line)}
+.stats div:nth-child(1){border-color:var(--pink)}.stats div:nth-child(2){border-color:var(--sky)}.stats div:nth-child(3){border-color:var(--sun)}
+.stats b{display:block;font:700 1.8rem Fredoka}.stats span{color:var(--mute);font-size:.8rem}
+section{padding:72px 0}
+section:nth-of-type(even){background:var(--panel2)}
+.eyebrow{display:inline-block;font-weight:700;font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);background:var(--sun);padding:4px 12px;border-radius:999px;margin-bottom:12px}
+#hubs .eyebrow{background:var(--sky)}#how .eyebrow{background:var(--mint)}#promote .eyebrow{background:#ffc2dc}
+section h2{font-size:clamp(1.9rem,3.8vw,2.8rem);margin-bottom:12px}
+.sub{color:var(--mute);max-width:640px;margin-bottom:26px}
+fieldset{border:0;margin-bottom:22px}
+legend{font-weight:700;margin-bottom:10px;font-size:.95rem}
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chip{border:2px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;padding:8px 16px;font:inherit;font-size:.88rem;cursor:pointer;transition:transform .12s}
+.chip:hover{transform:translateY(-2px);border-color:var(--selb)}
+.chip[aria-pressed="true"]{background:var(--sel);border-color:var(--selb);font-weight:700}
+.chip[aria-pressed="true"]::before{content:"♥ ";color:#d61f6e}
+body.hc .chip[aria-pressed="true"]::before{color:#000}
+.filters{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:24px}
+.filters label{display:grid;gap:4px;font-size:.8rem;color:var(--mute);font-weight:700}
+select,input,textarea{background:var(--panel);border:2px solid var(--line);color:var(--ink);border-radius:14px;padding:10px 12px;font:inherit;font-size:.9rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;list-style:none}
+.card{background:var(--panel);border:2px solid var(--line);border-radius:24px;padding:20px;display:flex;flex-direction:column;gap:12px;box-shadow:0 6px 0 var(--line);transition:transform .15s}
+.card:hover{transform:translateY(-3px)}
+.who{display:flex;gap:12px;align-items:center}
+.av{width:50px;height:50px;border-radius:50%;display:grid;place-items:center;font:700 1rem Fredoka;color:#2a1e3f;flex:none;border:3px solid #fff;box-shadow:0 0 0 2px var(--line)}
+.who b{display:block}.who small{color:var(--mute);font-size:.8rem}
+.match{margin-left:auto;text-align:center;font:700 1.2rem Fredoka;color:#2a1e3f;background:var(--sun);border-radius:16px;padding:4px 10px;line-height:1.1}
+.match span{display:block;font:700 .6rem "Atkinson Hyperlegible"}
+.tags{display:flex;flex-wrap:wrap;gap:6px;list-style:none}
+.tag{font-size:.75rem;padding:3px 10px;border-radius:999px;background:#f3eefc;color:var(--mute);border:1px solid transparent}
+.tag.shared{background:var(--okbg);color:var(--ok);font-weight:700}
+.card .btn{align-self:flex-start;padding:9px 16px;box-shadow:0 3px 0 #4f22b8}
+.card .btn.done{background:var(--okbg);color:var(--ok);box-shadow:0 3px 0 #9fe8c9}
+.empty{color:var(--mute);padding:30px;border:2px dashed var(--line);border-radius:24px;text-align:center;grid-column:1/-1}
+.hub{position:relative}
+.banner{height:96px;border-radius:18px;display:flex;align-items:flex-end;justify-content:space-between;padding:12px 14px;font:700 1.05rem Fredoka;color:#2a1e3f}
+.banner .emo{font-size:2.6rem;line-height:1}
+.badge{position:absolute;top:10px;right:12px;font-weight:700;font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;background:var(--pri);color:#fff;padding:5px 11px;border-radius:999px;box-shadow:0 3px 0 #4f22b8}
+.hub p{color:var(--mute);font-size:.88rem}
+.offers{font-size:.82rem;color:var(--ink);list-style:none;display:flex;flex-wrap:wrap;gap:6px}
+.offers li{background:#fff4cc;padding:3px 10px;border-radius:999px}
+body.hc .offers li{background:#000;border:1px solid #fff}
+.meta{display:flex;justify-content:space-between;font-size:.8rem;color:var(--mute);font-weight:700}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px;list-style:none}
+.step{padding:24px;border-radius:24px}
+.step:nth-child(1){background:#ffe1ef}.step:nth-child(2){background:#fff1b8}.step:nth-child(3){background:#d6f3ff}.step:nth-child(4){background:#d9fbee}
+.step b{font:700 1.1rem Fredoka;display:inline-grid;place-items:center;width:44px;height:44px;border-radius:50%;background:#fff;color:var(--pri)}
+.step h3{margin:12px 0 6px;font-size:1.25rem}.step p{color:#4a4062;font-size:.9rem}
+body.hc .step p{color:#fff}
+.promo{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:34px;align-items:start}
+.tiers{margin-bottom:6px}
+.tiers{display:grid;gap:12px}
+.tier{display:block;width:100%;text-align:left;background:var(--panel);border:2px solid var(--line);color:var(--ink);border-radius:20px;padding:16px 20px;cursor:pointer;font:inherit}
+.tier[aria-checked="true"]{border-color:var(--pri);box-shadow:0 5px 0 var(--pri)}
+.tier .top{display:flex;gap:12px;justify-content:space-between;font-weight:700;font-family:Fredoka;font-size:1.1rem}
+.tier .desc{display:block;color:var(--mute);font-size:.88rem;margin-top:4px}
+.tier .top span:last-child{white-space:nowrap}
+form{display:grid;gap:12px;background:var(--panel);border:2px solid var(--line);border-radius:24px;padding:24px;box-shadow:0 6px 0 var(--line)}
+form label{font-size:.82rem;color:var(--mute);display:grid;gap:6px;font-weight:700}
+.checks{display:flex;flex-wrap:wrap;gap:8px 16px}
+.checks label{display:flex;gap:6px;align-items:center;color:var(--ink);font-size:.85rem;font-weight:400}
+.ok{color:var(--ok);font-size:.9rem;min-height:20px;font-weight:700}
+footer{padding:36px 0;color:#fff;background:var(--ink);font-size:.8rem}
+body.hc footer{background:#000;border-top:1px solid #fff}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+@media(max-width:900px){.promo{grid-template-columns:minmax(0,1fr);gap:28px}}
+@media(max-width:560px){.tier{padding:14px 16px}form{padding:18px}.tier .top{font-size:1rem}}
+@media(max-width:800px){nav ul{display:none}.floaties{display:none}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+
+<div class="a11y" role="region" aria-label="Display settings"><div class="wrap">
+  <span>Display:</span>
+  <button id="txtSm" aria-label="Smaller text">A−</button>
+  <button id="txtLg" aria-label="Larger text">A+</button>
+  <button id="hcBtn" aria-pressed="false">High contrast</button>
+</div></div>
+
+<nav aria-label="Main"><div class="wrap">
+  <a class="logo" href="#top"><i aria-hidden="true"></i>HuddleHub</a>
+  <ul><li><a href="#match">Find people</a></li><li><a href="#hubs">Adaptive hubs</a></li><li><a href="#how">How it works</a></li><li><a href="#promote">List your hub</a></li></ul>
+  <a class="btn" href="#match">Join free</a>
+</div></nav>
+
+<main id="main">
+<header id="top"><div class="floaties" aria-hidden="true"><span>🏀</span><span>🏊</span><span>⛷️</span><span>🎾</span></div><div class="wrap">
+  <div class="eyebrow">Adaptive & inclusive sports network</div>
+  <h1>Everyone gets <em>to play.</em><br>Find your team.</h1>
+  <p>Connect with athletes, families, coaches and volunteers who love the same adaptive sports you do. Then find the hubs near you that make it possible: programs, equipment, funding and transportation.</p>
+  <div class="row">
+    <a class="btn" href="#match">Find people who play</a>
+    <a class="btn ghost" href="#hubs">Browse adaptive hubs</a>
+  </div>
+  <div class="stats" aria-label="Sample numbers">
+    <div><b>4,800</b><span>members (sample)</span></div>
+    <div><b>120</b><span>adaptive hubs (sample)</span></div>
+    <div><b>24</b><span>adaptive sports</span></div>
+  </div>
+</div></header>
+
+<section id="match" aria-labelledby="matchH"><div class="wrap">
+  <div class="eyebrow">Connect</div>
+  <h2 id="matchH">Who do you want to play with?</h2>
+  <p class="sub">Choose your sports, and add any support that matters to you. We'll show people with the most in common first.</p>
+  <fieldset><legend>Sports I play or want to try</legend><div class="chips" id="sportChips"></div></fieldset>
+  <div class="filters">
+    <label>Looking for<select id="role"><option value="">Anyone</option><option>Athlete</option><option>Teammate / partner</option><option>Coach</option><option>Volunteer</option><option>Parent / caregiver</option></select></label>
+    <label>City<select id="city"><option value="">Any city</option></select></label>
+    <label>Age group<select id="age"><option value="">All ages</option><option>Youth</option><option>Adult</option></select></label>
+  </div>
+  <p class="sr" aria-live="polite" id="peopleCount"></p>
+  <ul class="grid" id="people"></ul>
+</div></section>
+
+<section id="hubs" aria-labelledby="hubsH"><div class="wrap">
+  <div class="eyebrow">Discover</div>
+  <h2 id="hubsH">Adaptive hubs near you</h2>
+  <p class="sub">Adaptive hubs bring together recreation centres, clubs, schools and charities so people with disabilities can find programs in one place. We promote them here, and hubs that match your sports show first.</p>
+  <fieldset><legend>Hub offers</legend><div class="chips" id="offerChips"></div></fieldset>
+  <ul class="grid" id="hubGrid"></ul>
+</div></section>
+
+<section id="how" aria-labelledby="howH"><div class="wrap">
+  <div class="eyebrow">How it works</div>
+  <h2 id="howH">Connection and promotion, working together</h2>
+  <p class="sub">Getting into adaptive sport is often hard because programs are scattered and people don't know who else plays. HuddleHub fixes both sides.</p>
+  <ol class="steps">
+    <li class="step"><b>01</b><h3>Make a profile</h3><p>Pick your sports, your role (athlete, caregiver, coach, volunteer) and any support you need.</p></li>
+    <li class="step"><b>02</b><h3>Meet your people</h3><p>Find teammates, training partners, mentors and other families who play the same sports.</p></li>
+    <li class="step"><b>03</b><h3>Find a hub</h3><p>See which adaptive hubs offer your sport, plus equipment loans, funding help or rides.</p></li>
+    <li class="step"><b>04</b><h3>Hubs reach more people</h3><p>Hubs are shown to the members most likely to join, so programs fill up.</p></li>
+  </ol>
+</div></section>
+
+<section id="promote" aria-labelledby="promoH"><div class="wrap promo">
+  <div>
+    <div class="eyebrow">For hub organizers</div>
+    <h2 id="promoH">Get your hub in front of the people looking for it</h2>
+    <p class="sub">Nonprofit and community hubs list free. Sponsors and businesses can pay for extra visibility, which keeps HuddleHub free for members.</p>
+    <div class="tiers" role="radiogroup" aria-label="Listing plan" id="tiers">
+      <button type="button" class="tier" role="radio" aria-checked="true" data-t="Community"><span class="top"><span>Community listing</span><span>Free</span></span><span class="desc">For nonprofits and community hubs. Appear in the directory and in sport searches.</span></button>
+      <button type="button" class="tier" role="radio" aria-checked="false" data-t="Spotlight"><span class="top"><span>Spotlight</span><span>$19 / mo</span></span><span class="desc">Recommended to matching members and shown higher in results.</span></button>
+      <button type="button" class="tier" role="radio" aria-checked="false" data-t="Featured"><span class="top"><span>Featured partner</span><span>$49 / mo</span></span><span class="desc">Top placement, a Featured badge and a spot in the member newsletter. Good for equipment makers and sponsors.</span></button>
+    </div>
+  </div>
+  <form id="hubForm" aria-label="List your hub">
+    <label>Hub name<input id="hName" required placeholder="e.g. River Valley Adaptive Sport"></label>
+    <label>Main sport<select id="hSport"></select></label>
+    <label>City<input id="hCity" required placeholder="e.g. Edmonton"></label>
+    <fieldset><legend style="font-size:.82rem;color:var(--mute);font-weight:400">What you offer</legend><div class="checks" id="hOffers"></div></fieldset>
+    <label>Short description<textarea id="hDesc" rows="3" required placeholder="Who you serve and what you run"></textarea></label>
+    <button class="btn" type="submit">Add my hub</button>
+    <div class="ok" id="ok" role="status"></div>
+  </form>
+</div></section>
+</main>
+
+<footer><div class="wrap"><span>© 2026 HuddleHub · prototype, all people and hubs are sample data</span><span>Accessibility · Safety · Terms · Contact</span></div></footer>
+
+<script>
+const SPORTS=["Wheelchair basketball","Para ice hockey","Sitting volleyball","Goalball","Boccia","Para swimming","Adaptive skiing","Wheelchair rugby","Blind soccer","Handcycling","Adaptive climbing","Wheelchair tennis","Unified soccer","Para athletics"];
+const OFFERS=["Equipment loans","Funding help","Transportation","Youth programs","Try-it days","Sensory-friendly"];
+const COLORS=["#ffb3d4","#ffe27a","#9fe0ff","#a8f0cf","#d4bfff","#ffc3a8"];
+const CITIES=["Edmonton","Calgary","Vancouver","Toronto","Winnipeg"];
+const PEOPLE=[
+ ["Maya R.","Edmonton","Athlete","Adult",["Wheelchair basketball","Para athletics","Handcycling"]],
+ ["Jordan T.","Calgary","Coach","Adult",["Para ice hockey","Wheelchair rugby"]],
+ ["Priya S.","Edmonton","Parent / caregiver","Youth",["Boccia","Para swimming","Unified soccer"]],
+ ["Leo K.","Vancouver","Athlete","Adult",["Adaptive climbing","Adaptive skiing","Handcycling"]],
+ ["Sam O.","Toronto","Volunteer","Adult",["Blind soccer","Goalball","Para athletics"]],
+ ["Ana G.","Edmonton","Teammate / partner","Adult",["Sitting volleyball","Wheelchair basketball"]],
+ ["Chris B.","Winnipeg","Athlete","Youth",["Para ice hockey","Para swimming"]],
+ ["Noor A.","Calgary","Athlete","Adult",["Wheelchair tennis","Para swimming","Boccia"]],
+ ["Tyler M.","Edmonton","Coach","Adult",["Wheelchair basketball","Wheelchair rugby","Para ice hockey"]],
+ ["Emily W.","Vancouver","Parent / caregiver","Youth",["Adaptive skiing","Adaptive climbing","Unified soccer"]],
+ ["Diego F.","Toronto","Athlete","Adult",["Goalball","Blind soccer"]],
+ ["Hana L.","Winnipeg","Volunteer","Adult",["Sitting volleyball","Boccia","Para athletics"]]
+].map(([name,city,role,age,sports],i)=>({name,city,role,age,sports,color:COLORS[i%COLORS.length]}));
+let HUBS=[
+ {name:"River Valley Adaptive Sport",sport:"Wheelchair basketball",city:"Edmonton",members:860,offers:["Equipment loans","Try-it days","Youth programs"],desc:"Weekly chair basketball and para athletics with loaner sport chairs.",tier:"Featured"},
+ {name:"Foothills Inclusive Rec",sport:"Boccia",city:"Calgary",members:520,offers:["Sensory-friendly","Youth programs","Funding help"],desc:"Recreation centres and schools teaming up on programs for kids and families.",tier:"Community"},
+ {name:"Prairie Sledge Hockey",sport:"Para ice hockey",city:"Winnipeg",members:310,offers:["Equipment loans","Transportation"],desc:"Sledges and gear provided. Beginners to competitive teams.",tier:"Spotlight"},
+ {name:"Coastal Adaptive Outdoors",sport:"Adaptive skiing",city:"Vancouver",members:690,offers:["Equipment loans","Funding help","Try-it days"],desc:"Sit-skis, adaptive climbing and trained volunteer guides.",tier:"Featured"},
+ {name:"Lakeshore Goalball Club",sport:"Goalball",city:"Toronto",members:190,offers:["Try-it days","Transportation"],desc:"Goalball and blind soccer for athletes with visual impairments.",tier:"Community"},
+ {name:"Northside Unified Sports",sport:"Unified soccer",city:"Edmonton",members:240,offers:["Sensory-friendly","Youth programs"],desc:"Athletes with and without intellectual disabilities playing on the same team.",tier:"Spotlight"}
+];
+const HUE=[["#ffb3d4","#ffe27a"],["#9fe0ff","#d4bfff"],["#a8f0cf","#9fe0ff"],["#ffe27a","#ffc3a8"],["#d4bfff","#ffb3d4"],["#ffc3a8","#a8f0cf"]];
+const EMO={"Wheelchair basketball":"🏀","Para ice hockey":"🏒","Sitting volleyball":"🏐","Goalball":"🔔","Boccia":"🎯","Para swimming":"🏊","Adaptive skiing":"⛷️","Wheelchair rugby":"🏉","Blind soccer":"⚽","Handcycling":"🚴","Adaptive climbing":"🧗","Wheelchair tennis":"🎾","Unified soccer":"⚽","Para athletics":"🏅"};
+let picked=new Set(["Wheelchair basketball","Boccia"]);const offerPick=new Set();const connected=new Set();
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const initials=n=>n.split(/\s+/).map(w=>w[0]).join('').slice(0,2);
+const hue=s=>HUE[Math.abs([...s].reduce((a,c)=>a+c.charCodeAt(0),0))%HUE.length];
+
+function chips(el,items,set,cb){items.forEach(s=>{const b=document.createElement('button');b.type='button';b.className='chip';b.textContent=s;b.setAttribute('aria-pressed',set.has(s));b.onclick=()=>{set.has(s)?set.delete(s):set.add(s);b.setAttribute('aria-pressed',set.has(s));cb()};el.appendChild(b)})}
+chips(document.getElementById('sportChips'),SPORTS,picked,render);
+chips(document.getElementById('offerChips'),OFFERS,offerPick,renderHubs);
+const citySel=document.getElementById('city');CITIES.forEach(c=>citySel.add(new Option(c)));
+const hSport=document.getElementById('hSport');SPORTS.forEach(s=>hSport.add(new Option(s)));
+document.getElementById('hOffers').innerHTML=OFFERS.map(o=>`<label><input type="checkbox" value="${o}"> ${o}</label>`).join('');
+['role','age'].forEach(id=>document.getElementById(id).onchange=render);citySel.onchange=render;
+
+function render(){
+  const role=document.getElementById('role').value,city=citySel.value,age=document.getElementById('age').value;
+  const list=PEOPLE.filter(p=>(!role||p.role===role)&&(!city||p.city===city)&&(!age||p.age===age))
+    .map(p=>({...p,shared:p.sports.filter(s=>picked.has(s))}))
+    .filter(p=>picked.size===0||p.shared.length)
+    .sort((a,b)=>b.shared.length-a.shared.length);
+  const el=document.getElementById('people');
+  document.getElementById('peopleCount').textContent=`${list.length} people found`;
+  if(!list.length){el.innerHTML='<li class="empty">No matches yet. Try another sport, role or city.</li>';}
+  else el.innerHTML=list.map(p=>{
+    const on=connected.has(p.name);
+    return `<li class="card"><div class="who"><div class="av" aria-hidden="true" style="background:${p.color}">${initials(p.name)}</div><div><b>${p.name}</b><small>${p.role} · ${p.city} · ${p.age}</small></div>${picked.size?`<div class="match">${p.shared.length}<span>shared sport${p.shared.length===1?'':'s'}</span></div>`:''}</div>
+    <ul class="tags" aria-label="Sports">${p.sports.map(s=>`<li class="tag ${picked.has(s)?'shared':''}">${s}</li>`).join('')}</ul>
+    <button class="btn ${on?'done':''}" data-n="${p.name}" aria-label="${on?'Cancel request to':'Connect with'} ${p.name}">${on?'Request sent ✓':'Connect'}</button></li>`}).join('');
+  el.querySelectorAll('button[data-n]').forEach(b=>b.onclick=()=>{const n=b.dataset.n;connected.has(n)?connected.delete(n):connected.add(n);render();el.querySelector(`button[data-n="${n}"]`).focus()});
+  renderHubs();
+}
+function renderHubs(){
+  const rank={Featured:2,Spotlight:1,Community:0};
+  const list=HUBS.filter(h=>[...offerPick].every(o=>h.offers.includes(o)))
+    .sort((a,b)=>(picked.has(b.sport)-picked.has(a.sport))*10+(rank[b.tier]-rank[a.tier]));
+  const el=document.getElementById('hubGrid');
+  if(!list.length){el.innerHTML='<li class="empty">No hubs offer all of those yet. Try removing a filter.</li>';return}
+  el.innerHTML=list.map(h=>`<li class="card hub">
+    <div class="banner" aria-hidden="true" style="background:linear-gradient(135deg,${hue(h.sport)[0]},${hue(h.sport)[1]})"><span>${esc(h.sport)}</span><span class="emo">${EMO[h.sport]||'🌟'}</span></div>
+    ${h.tier==='Featured'?'<span class="badge">Featured</span>':''}
+    <h3>${esc(h.name)}</h3><p>${esc(h.desc)}</p>
+    ${h.offers.length?`<ul class="offers" aria-label="Offers">${h.offers.map(o=>`<li>${esc(o)}</li>`).join('')}</ul>`:''}
+    <div class="meta"><span>${esc(h.city)}</span><span>${h.members.toLocaleString()} members</span></div>
+    ${picked.has(h.sport)?'<span class="tag shared" style="align-self:flex-start">Matches your sports</span>':''}
+  </li>`).join('');
+}
+let tier="Community";
+document.querySelectorAll('.tier').forEach(t=>t.onclick=()=>{document.querySelectorAll('.tier').forEach(x=>x.setAttribute('aria-checked','false'));t.setAttribute('aria-checked','true');tier=t.dataset.t});
+document.getElementById('hubForm').onsubmit=e=>{
+  e.preventDefault();
+  const offers=[...document.querySelectorAll('#hOffers input:checked')].map(i=>i.value);
+  HUBS.unshift({name:document.getElementById('hName').value.trim(),sport:hSport.value,city:document.getElementById('hCity').value.trim(),desc:document.getElementById('hDesc').value.trim(),members:1,offers,tier});
+  e.target.reset();
+  document.getElementById('ok').textContent=`Added on the ${tier} plan. It now appears in Adaptive hubs above.`;
+  renderHubs();
+};
+// display settings
+let fs=17;const setFs=()=>document.documentElement.style.setProperty('--fs',fs+'px');
+document.getElementById('txtLg').onclick=()=>{fs=Math.min(24,fs+1);setFs()};
+document.getElementById('txtSm').onclick=()=>{fs=Math.max(14,fs-1);setFs()};
+const hc=document.getElementById('hcBtn');hc.onclick=()=>{const on=document.body.classList.toggle('hc');hc.setAttribute('aria-pressed',on)};
+render();
+</script>
+</body>
+</html>
